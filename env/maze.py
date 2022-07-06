@@ -100,26 +100,18 @@ class Maze(gym.Env):
             return True
         return False
     def get_arr(self,pos):
-        self.state1 = np.zeros((self.V_X,self.V_Y))
-        self.state2 = np.zeros((self.V_X,self.V_Y))
-        self.state3 = np.zeros((self.V_X,self.V_Y))
-        self.state4 = np.zeros((self.V_X,self.V_Y))
+        self.state = np.zeros((4,self.V_X,self.V_Y))
 
         for i in range(0,self.V_X):
             for j in range(0,self.V_Y):
                 if not self.on_board(self.pos[0]+i-self.V_X/2,self.pos[1]+j-self.V_Y/2):
-                    self.state1[i][j] = 1
-                    self.state2[i][j] = 0
-                    self.state3[i][j] = 0
+                    self.state[0][i][j] = 1
                 elif self.on_wall(self.pos[0]+i-self.V_X/2,self.pos[1]+j-self.V_Y/2):
-                    self.state1[i][j] = 1
-                    self.state2[i][j] = 0
-                    self.state3[i][j] = 0
+                    self.state[0][i][j] = 1
                 if self.on_goal(self.pos[0]+i-self.V_X/2 ,self.pos[1]+j-self.V_Y/2):
-                    self.state3[i][j] = 1
+                    self.state[2][i][j] = 1
                 if self.on_minus(self.pos[0]+i-self.V_X/2 ,self.pos[1]+j-self.V_Y/2):
-                    self.state2[i][j] = 1
+                    self.state[1][i][j] = 1
                 if self.is_visited(self.pos[0]+i-self.V_X/2 ,self.pos[1]+j-self.V_Y/2):
-                    self.state4[i][j] = 1
-
-        return [self.state1 ,self.state2 ,self.state3 , self.state4]
+                    self.state[3][i][j] = 1
+        return self.state
